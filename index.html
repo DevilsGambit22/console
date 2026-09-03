@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#07080d">
+<title>ACFA | Play More Than Just Chess?</title>
+<style>
+:root{
+  --bg:#07080d;--panel:#10141d;--text:#fff;--muted:#aeb7c4;
+  --red:#ff382d;--gold:#ffc44f;--green:#55e957;--blue:#46a9ff;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;background:transparent}
+body{margin:0;padding:14px;background:transparent;color:var(--text);font-family:Arial,Helvetica,sans-serif}
+.page{
+  position:relative;max-width:980px;margin:auto;overflow:hidden;border-radius:28px;
+  border:1px solid rgba(255,90,50,.30);
+  background:
+    radial-gradient(circle at 50% 0,rgba(255,65,30,.19),transparent 28%),
+    radial-gradient(circle at 5% 35%,rgba(48,255,85,.08),transparent 25%),
+    radial-gradient(circle at 95% 40%,rgba(45,130,255,.10),transparent 25%),
+    linear-gradient(180deg,#111620,#080a0f 60%,#07080c);
+  box-shadow:0 22px 65px rgba(0,0,0,.52)
+}
+.page:before{
+  content:"";position:absolute;inset:0;pointer-events:none;opacity:.14;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:30px 30px
+}
+.orb{position:absolute;border-radius:50%;filter:blur(75px);opacity:.18;pointer-events:none;animation:drift 8s ease-in-out infinite alternate}
+.o1{width:230px;height:230px;background:#ff382d;top:-100px;left:38%}
+.o2{width:190px;height:190px;background:#35e957;top:330px;left:-90px;animation-delay:-3s}
+.o3{width:210px;height:210px;background:#328cff;top:390px;right:-100px;animation-delay:-5s}
+header{position:relative;z-index:2;text-align:center;padding:42px 24px 22px}
+.kicker{font-size:11px;font-weight:900;letter-spacing:.18em;color:#ff9e80;text-transform:uppercase}
+h1{margin:12px 0 12px;font-size:clamp(39px,7vw,72px);line-height:.92;letter-spacing:-.055em;text-transform:uppercase}
+h1 span{display:block;color:var(--red);text-shadow:0 0 30px rgba(255,56,45,.28)}
+.intro{max-width:700px;margin:auto;color:var(--muted);line-height:1.65;font-size:15px}
+.platform-labels{
+  position:relative;z-index:3;display:grid;grid-template-columns:repeat(4,1fr);
+  gap:9px;margin:4px 22px 14px
+}
+.platform{
+  padding:12px 8px;text-align:center;border:1px solid rgba(255,255,255,.10);
+  border-radius:13px;background:rgba(8,11,16,.84);font-size:11px;font-weight:900;
+  letter-spacing:.08em;text-transform:uppercase;animation:glow 3.4s ease-in-out infinite
+}
+.platform:nth-child(1){color:#79ee72}
+.platform:nth-child(2){color:#73baff;animation-delay:-.8s}
+.platform:nth-child(3){color:#ff7777;animation-delay:-1.6s}
+.platform:nth-child(4){color:#83d5ff;animation-delay:-2.4s}
+.visual{
+  position:relative;z-index:2;margin:0 18px 20px;padding:7px;border-radius:22px;
+  border:1px solid rgba(255,255,255,.10);
+  background:linear-gradient(135deg,rgba(63,255,89,.11),rgba(255,57,42,.10),rgba(54,142,255,.12));
+  box-shadow:0 18px 45px rgba(0,0,0,.34)
+}
+.visual img{display:block;width:100%;height:auto;border-radius:16px}
+.hero-visual{animation:float 5s ease-in-out infinite}
+.example{
+  position:relative;z-index:2;margin:0 18px 20px;padding:28px 24px;text-align:center;
+  border:1px solid rgba(255,255,255,.10);border-radius:20px;
+  background:rgba(255,255,255,.035)
+}
+.example h2{margin:0 0 8px;font-size:25px}
+.example>p{margin:0 auto;color:var(--muted);max-width:650px;line-height:1.65;font-size:14px}
+.sample{
+  max-width:650px;margin:19px auto 0;display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid rgba(255,255,255,.11);border-radius:14px;overflow:hidden;background:#080b10
+}
+.sample div{padding:14px 10px;border-right:1px solid rgba(255,255,255,.09)}
+.sample div:last-child{border-right:0}
+.sample small{display:block;color:#778392;font-size:9px;font-weight:900;letter-spacing:.11em;text-transform:uppercase;margin-bottom:5px}
+.sample strong{font-size:12px}
+.couch-wrap{position:relative;z-index:2;padding:4px 18px 18px}
+.couch-title{text-align:center;margin:8px 0 14px}
+.couch-title h2{margin:0;font-size:27px}
+.couch-title p{margin:7px 0 0;color:var(--muted);font-size:13px}
+.couch{overflow:hidden;border-radius:22px;border:1px solid rgba(255,74,40,.22);box-shadow:0 18px 50px rgba(0,0,0,.38)}
+.couch img{display:block;width:100%;height:auto;transition:transform .7s ease}
+
+footer{position:relative;z-index:2;text-align:center;padding:7px 18px 26px;color:#78828e;font-size:11px;letter-spacing:.06em}
+.spark{position:absolute;width:3px;height:3px;border-radius:50%;background:#ff7348;box-shadow:0 0 10px #ff4b25;animation:rise 6s linear infinite;opacity:0}
+.s1{left:10%;bottom:0}.s2{left:27%;bottom:0;animation-delay:-2s}.s3{left:70%;bottom:0;animation-delay:-4s}.s4{left:89%;bottom:0;animation-delay:-1s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+@keyframes drift{from{transform:translate(-10px,-5px)}to{transform:translate(18px,18px)}}
+@keyframes glow{0%,100%{box-shadow:0 0 0 rgba(255,255,255,0)}50%{box-shadow:0 0 20px rgba(255,255,255,.06)}}
+@keyframes rise{0%{transform:translateY(0) scale(.7);opacity:0}15%{opacity:.9}100%{transform:translateY(-780px) scale(1.6);opacity:0}}
+@media(max-width:650px){
+  body{padding:8px}.page{border-radius:20px}header{padding:32px 17px 18px}
+  .platform-labels{grid-template-columns:1fr 1fr;margin:4px 13px 13px}
+  .visual,.example{margin-left:10px;margin-right:10px}
+  .couch-wrap{padding-left:10px;padding-right:10px}
+  .sample{grid-template-columns:1fr}
+  .sample div{border-right:0;border-bottom:1px solid rgba(255,255,255,.09)}
+  .sample div:last-child{border-bottom:0}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*:before,*:after{animation:none!important;transition:none!important}
+}
+
+/* ===== Refined floating / hover interaction ===== */
+
+/* All non-image boards gently float at rest. */
+.platform,
+.example,
+.couch-title{
+  transform-style:preserve-3d;
+  will-change:transform, box-shadow;
+}
+
+.platform{
+  animation:
+    boardFloat 4.8s ease-in-out infinite,
+    glow 3.4s ease-in-out infinite;
+}
+.platform:nth-child(2){
+  animation-delay:-1.0s,-.8s;
+}
+.platform:nth-child(3){
+  animation-delay:-2.0s,-1.6s;
+}
+.platform:nth-child(4){
+  animation-delay:-3.0s,-2.4s;
+}
+
+.example{
+  animation:boardFloatSoft 6.2s ease-in-out infinite -1.5s;
+}
+
+.couch-title{
+  animation:boardFloatSoft 6.8s ease-in-out infinite -3s;
+}
+
+/* Images float subtly but never tilt. */
+.visual,
+.couch{
+  will-change:transform, box-shadow;
+  animation:imageFloat 5.8s ease-in-out infinite;
+}
+.couch{
+  animation-delay:-2.4s;
+}
+
+@media (hover:hover) and (pointer:fine){
+
+  /* Board/card hover: pop outward + 3D tilt. */
+  .platform:hover{
+    animation-play-state:paused;
+    transform:perspective(750px) translateY(-10px) scale(1.075) rotateX(7deg) rotateY(-7deg);
+    box-shadow:
+      0 18px 38px rgba(0,0,0,.42),
+      0 0 28px currentColor;
+    z-index:10;
+  }
+
+  .platform:nth-child(even):hover{
+    transform:perspective(750px) translateY(-10px) scale(1.075) rotateX(7deg) rotateY(7deg);
+  }
+
+  .example:hover{
+    animation-play-state:paused;
+    transform:perspective(1000px) translateY(-8px) scale(1.025) rotateX(2.5deg) rotateY(-2.5deg);
+    box-shadow:0 22px 48px rgba(0,0,0,.42);
+  }
+
+  .couch-title:hover{
+    animation-play-state:paused;
+    transform:perspective(900px) translateY(-6px) scale(1.025) rotateX(2deg) rotateY(2deg);
+  }
+
+  /* Image boards: pop only, absolutely no tilt. */
+  .visual:hover,
+  .couch:hover{
+    animation-play-state:paused;
+    transform:translateY(-9px) scale(1.035);
+    box-shadow:0 24px 58px rgba(0,0,0,.48);
+  }
+
+  .visual:hover img,
+  .couch:hover img{
+    transform:scale(1.018);
+  }
+}
+
+.platform,
+.example,
+.couch-title,
+.visual,
+.couch,
+.visual img,
+.couch img{
+  transition:
+    transform .34s cubic-bezier(.2,.8,.2,1),
+    box-shadow .34s ease,
+    filter .34s ease;
+}
+
+@keyframes boardFloat{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-6px)}
+}
+
+@keyframes boardFloatSoft{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-4px)}
+}
+
+@keyframes imageFloat{
+  0%,100%{transform:translateY(0) scale(1)}
+  50%{transform:translateY(-5px) scale(1.006)}
+}
+
+/* Touch devices keep the floating motion but avoid sticky hover transforms. */
+@media (hover:none), (pointer:coarse){
+  .platform:active,
+  .example:active,
+  .visual:active,
+  .couch:active{
+    transform:scale(.985);
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .platform,
+  .example,
+  .couch-title,
+  .visual,
+  .couch{
+    animation:none !important;
+  }
+}
+
+</style>
+</head>
+<body>
+<main class="page">
+  <span class="orb o1"></span><span class="orb o2"></span><span class="orb o3"></span>
+  <span class="spark s1"></span><span class="spark s2"></span><span class="spark s3"></span><span class="spark s4"></span>
+
+  <header>
+    <div class="kicker">And Chess For All • Community Gaming</div>
+    <h1>Play More Than <span>Just Chess?</span></h1>
+    <p class="intro">Chess brings us together, but it does not have to be the only game we play. Find other ACFA members across Xbox, PlayStation, Nintendo and Steam.</p>
+  </header>
+
+  <section class="platform-labels" aria-label="Supported gaming platforms">
+    <div class="platform">Xbox</div>
+    <div class="platform">PlayStation</div>
+    <div class="platform">Nintendo</div>
+    <div class="platform">Steam</div>
+  </section>
+
+  <section class="visual hero-visual">
+    <img src="assets/acfa-platforms.jpg" alt="ACFA gaming artwork featuring Xbox, PlayStation, Nintendo, Steam and the original devil character">
+  </section>
+
+  <section class="example">
+    <h2>Join the conversation below.</h2>
+    <p>Use the Chess.com forum comments underneath this page. Tell everyone what platform you play on, your username or gamertag, and which games you play.</p>
+    <div class="sample">
+      <div><small>Platform</small><strong>Xbox / PlayStation / Nintendo / Steam</strong></div>
+      <div><small>Username</small><strong>username/gamertag</strong></div>
+      <div><small>Games</small><strong>Games you play</strong></div>
+    </div>
+  </section>
+
+  <section class="couch-wrap">
+    <div class="couch-title">
+      <h2>Find Your Next Teammate.</h2>
+      <p>Different platforms. Different games. One ACFA community.</p>
+    </div>
+    <div class="couch">
+      <img src="assets/acfa-gaming-couch.jpg" alt="The original ACFA devil and Saint Gambit characters sitting together gaming">
+    </div>
+  </section>
+
+  <footer>EVERY PLAYER BELONGS • EVERY MOVE MATTERS</footer>
+</main>
+</body>
+</html>
